@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitor de Experiencia</title>
+    <style>
+        :root {
+            color-scheme: only light;
+            --bg: #f8f4ef;
+            --gradient: linear-gradient(145deg, #fefefe, #f4ebe2);
+            --card: #ffffff;
+            --accent: #2f2f2f;
+            --muted: #716c63;
+            --accent-soft: #7daea8;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Playfair Display", "Times New Roman", serif;
+            background: var(--gradient);
+            color: var(--accent);
+            padding: 2.5rem 1.5rem 4rem;
+        }
+        .viewport {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.8rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: clamp(2.4rem, 4vw, 3.2rem);
+            letter-spacing: 0.12rem;
+        }
+        header p {
+            color: var(--muted);
+            letter-spacing: 0.08rem;
+            margin-top: 0.8rem;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 1.8rem;
+        }
+        .panel {
+            background: var(--card);
+            border-radius: 22px;
+            padding: 2.4rem;
+            box-shadow: 0 30px 60px rgba(92, 84, 72, 0.08);
+        }
+        .panel h2 {
+            margin: 0 0 1rem;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18rem;
+            color: var(--muted);
+        }
+        .panel p {
+            margin: 0;
+            line-height: 1.8;
+        }
+        .highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 1rem;
+            margin-top: 1.6rem;
+        }
+        .highlight {
+            border: 1px solid #e1dcd1;
+            border-radius: 16px;
+            padding: 1.1rem;
+            background: #fbf8f3;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        form {
+            margin-top: 1rem;
+        }
+        .file-input {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid #d8d3c6;
+            border-radius: 14px;
+            background: #fbf8f3;
+            font-size: 1rem;
+            margin-bottom: 1.4rem;
+        }
+        button {
+            width: 100%;
+            padding: 1.05rem;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(140deg, #7daea8, #5b807b);
+            color: #fff;
+            letter-spacing: 0.12rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 16px 28px rgba(108, 130, 124, 0.3);
+        }
+        footer {
+            text-align: center;
+            margin-top: 2.8rem;
+            color: var(--muted);
+            letter-spacing: 0.08rem;
+        }
+        @media (max-width: 900px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport">
+        <header>
+            <h1>Plataforma de Evaluación Automática de Call Centers</h1>
+            <p>Transcribe, resume y califica la satisfacción de tus conversaciones con criterios claros y ponderados.</p>
+        </header>
+
+        <section class="grid">
+            <article class="panel">
+                <h2>Descripción</h2>
+                <p>
+                    Subes un audio y obtienes un reporte completo: transcripción por turnos, resumen, sentimiento sobre la atención del agente
+                    y un CSAT calculado con IA ponderando cinco criterios: resolución (30%), tono del cliente (25%), cortesía del agente (15%),
+                    claridad del cierre (15%) y conformidad explícita (15%). Transparente y comparable entre llamadas.
+                </p>
+            </article>
+
+            <article class="panel">
+                <h2>Subir audio</h2>
+                <p>Formatos admitidos: MP3, WAV, M4A.</p>
+                <form action="/procesar" method="POST" enctype="multipart/form-data">
+                    <input class="file-input" type="file" name="audio" accept="audio/*" required>
+                    <button type="submit">Procesar audio</button>
+                </form>
+            </article>
+        </section>
+
+        <section class="panel" style="margin-top:1.8rem">
+            <h2>Proceso</h2>
+            <div class="highlights">
+                <div class="highlight">1. Subes tu audio (MP3, WAV, M4A).</div>
+                <div class="highlight">2. El sistema transcribe palabra por palabra, y separa entre usuario y agente</div>
+                <div class="highlight">3. Extrae resumen y analiza el sentimiento.</div>
+                <div class="highlight">4. Calcula CSAT y palabras clave para comparar llamadas.</div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

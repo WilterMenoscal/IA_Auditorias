@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados del Análisis</title>
+    <style>
+        :root {
+            color-scheme: only light;
+            --bg: #f8f4ef;
+            --card: #ffffff;
+            --accent: #2f2f2f;
+            --muted: #6f685c;
+            --accent-soft: #7daea8;
+        }
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Playfair Display", "Times New Roman", serif;
+            background: linear-gradient(140deg, #fefefe, var(--bg));
+            color: var(--accent);
+            margin: 0;
+            padding: 2.5rem 1.5rem 3rem;
+        }
+        .viewport {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.8rem;
+            letter-spacing: 1px;
+        }
+        header p {
+            color: var(--muted);
+            letter-spacing: 0.08rem;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+        .metric-card {
+            background: var(--card);
+            border-radius: 18px;
+            padding: 1.7rem;
+            box-shadow: 0 20px 40px rgba(94, 89, 76, 0.12);
+            border: 1px solid #e4ded1;
+        }
+        .metric-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15rem;
+            color: var(--muted);
+        }
+        .metric-value {
+            font-size: 2rem;
+            margin-top: 0.4rem;
+            color: var(--accent-soft);
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+            gap: 1.5rem;
+        }
+        .panel {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 25px 55px rgba(92, 84, 72, 0.1);
+            border: 1px solid #e6dfd1;
+        }
+        .panel h2 {
+            margin: 0 0 1rem;
+            font-size: 1.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1rem;
+            color: var(--muted);
+        }
+        .panel p {
+            line-height: 1.75;
+            margin: 0;
+        }
+        .criteria-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fbf8f3;
+            border: 1px solid #e0d8c9;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .criteria-table th,
+        .criteria-table td {
+            padding: 0.85rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e0d8c9;
+        }
+        .criteria-table th {
+            text-transform: uppercase;
+            letter-spacing: 0.08rem;
+            font-size: 0.85rem;
+            color: var(--muted);
+            background: #f5efe3;
+        }
+        .criteria-table td.value {
+            font-weight: 700;
+            color: var(--accent-soft);
+        }
+        .criteria-table tr:last-child td {
+            border-bottom: none;
+        }
+        .transcript {
+            white-space: pre-wrap;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .keywords {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .keywords li {
+            border: 1px solid #dcd5c7;
+            border-radius: 999px;
+            padding: 0.45rem 1.1rem;
+            background: #fbf8f3;
+            font-size: 0.95rem;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+            padding: 0.85rem 1.8rem;
+            border-radius: 999px;
+            background: linear-gradient(140deg, #7daea8, #5b807b);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            letter-spacing: 0.12rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .back-link span {
+            font-size: 1.2rem;
+        }
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 28px rgba(108, 130, 124, 0.3);
+        }
+        @media (max-width: 900px) {
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+            header h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="viewport">
+        <header>
+            <h1>Resultados del análisis</h1>
+            {% if audio_url %}
+            <div style="margin-top: 1rem;">
+                <audio controls preload="metadata" src="{{ audio_url }}" style="width:100%; max-width: 480px;">
+                    Tu navegador no soporta la reproducción de audio.
+                </audio>
+            </div>
+            {% endif %}
+        </header>
+
+        <section class="metrics">
+            <article class="metric-card">
+                <p class="metric-label">Satisfacción del cliente</p>
+                <p class="metric-value">{{ csat }}/100</p>
+            </article>
+            <article class="metric-card">
+                <p class="metric-label">Sentimiento del cliente</p>
+                <p class="metric-value">{{ sentimiento }}</p>
+            </article>
+            <article class="metric-card">
+                <p class="metric-label">Palabras clave detectadas</p>
+                <p class="metric-value">{{ keywords | length }}</p>
+            </article>
+        </section>
+
+        <section class="content-grid">
+            <article class="panel">
+                <h2>CSAT por criterio</h2>
+                {% set pesos = {
+                    'resolucion': 30,
+                    'tono': 25,
+                    'cortesia': 15,
+                    'cierre': 15,
+                    'conformidad': 15
+                } %}
+                <table class="criteria-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio</th>
+                            <th>Puntaje (0-100)</th>
+                            <th>Aporte al total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% set score = csat_criterios.resolucion %}
+                        {% set contrib = (score * pesos.resolucion / 100) if score is number else None %}
+                        <tr>
+                            <td>Resolución</td>
+                            <td class="value">{{ score if score is not none else 'N/D' }}</td>
+                            <td>{{ contrib|round(1) if contrib is not none else 'N/D' }} / {{ pesos.resolucion }}</td>
+                        </tr>
+
+                        {% set score = csat_criterios.tono %}
+                        {% set contrib = (score * pesos.tono / 100) if score is number else None %}
+                        <tr>
+                            <td>Tono del cliente</td>
+                            <td class="value">{{ score if score is not none else 'N/D' }}</td>
+                            <td>{{ contrib|round(1) if contrib is not none else 'N/D' }} / {{ pesos.tono }}</td>
+                        </tr>
+
+                        {% set score = csat_criterios.cortesia %}
+                        {% set contrib = (score * pesos.cortesia / 100) if score is number else None %}
+                        <tr>
+                            <td>Cortesía del agente</td>
+                            <td class="value">{{ score if score is not none else 'N/D' }}</td>
+                            <td>{{ contrib|round(1) if contrib is not none else 'N/D' }} / {{ pesos.cortesia }}</td>
+                        </tr>
+
+                        {% set score = csat_criterios.cierre %}
+                        {% set contrib = (score * pesos.cierre / 100) if score is number else None %}
+                        <tr>
+                            <td>Claridad del cierre</td>
+                            <td class="value">{{ score if score is not none else 'N/D' }}</td>
+                            <td>{{ contrib|round(1) if contrib is not none else 'N/D' }} / {{ pesos.cierre }}</td>
+                        </tr>
+
+                        {% set score = csat_criterios.conformidad %}
+                        {% set contrib = (score * pesos.conformidad / 100) if score is number else None %}
+                        <tr>
+                            <td>Conformidad explícita</td>
+                            <td class="value">{{ score if score is not none else 'N/D' }}</td>
+                            <td>{{ contrib|round(1) if contrib is not none else 'N/D' }} / {{ pesos.conformidad }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </article>
+            <article class="panel">
+                <h2>Palabras clave</h2>
+                <ul class="keywords">
+                {% for k in keywords %}
+                    <li>{{ k }}</li>
+                {% endfor %}
+                </ul>
+            </article>
+
+            <article class="panel">
+                <h2>Transcripción completa</h2>
+                <pre class="transcript">{{ texto }}</pre>
+            </article>
+            <article class="panel">
+                <h2>Resumen</h2>
+                <p>{{ resumen }}</p>
+            </article>
+        </section>
+
+        <a class="back-link" href="/"><span>←</span>Procesar otro audio</a>
+    </div>
+</body>
+</html>
